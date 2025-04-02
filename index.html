@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Kitty Fanpage</title>
+    <title>Adrielis Hello Kitty Hemsida</title>
     <style>
         * {
             margin: 0;
@@ -346,6 +346,79 @@
             animation: float 3s ease-in-out infinite;
         }
         
+        /* Confetti Styles */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0.7;
+            animation: confetti-fall 3s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        .surprise-button {
+            background: linear-gradient(to right, #ff0066, #ff99cc);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            font-size: 1.2rem;
+            transition: all 0.4s;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(255, 0, 102, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .surprise-button:before {
+            content: '✨';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .surprise-button:after {
+            content: '✨';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .surprise-button:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 12px 30px rgba(255, 0, 102, 0.7);
+        }
+        
+        .surprise-button:active {
+            transform: scale(0.95) translateY(2px);
+        }
+        
         @media (max-width: 768px) {
             .gallery {
                 grid-template-columns: repeat(2, 1fr);
@@ -457,6 +530,12 @@
             <div class="fun-fact">
                 <p>We're so glad you've visited <strong>Adrielis</strong> Hello Kitty. This space is just for you - filled with all the content a Hello Kitty super duper fan could wish for!</p>
             </div>
+            
+            <!-- Added Surprise Confetti Button -->
+            <button class="surprise-button" id="confetti-button">✨ Surprise! Click Me! ✨</button>
+            
+            <!-- Confetti Container -->
+            <div id="confetti-container" class="confetti-container"></div>
         </div>
         
         <div class="content-section" id="quotes">
@@ -469,7 +548,7 @@
     </div>
     
     <footer>
-        <p>© 2025 Hello Kitty Fanpage | This is an unofficial fanpage created with ❤️</p>
+        <p>© 2025 Adriel's Hello Kitty Website | This is an unofficial fanpage created with ❤️ for Adrieli</p>
         <p>Hello Kitty is a registered trademark of Sanrio Co., Ltd.</p>
     </footer>
     
@@ -615,6 +694,159 @@
             // Trigger scroll event to show visible sections
             window.dispatchEvent(new Event('scroll'));
         });
+        
+        // Add Confetti Button functionality
+        document.getElementById('confetti-button').addEventListener('click', function() {
+            createConfetti();
+            
+            // Add button animation
+            this.style.transform = 'scale(1.2) translateY(-10px)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 500);
+            
+            // Play a cute sound effect (optional)
+            const audio = new Audio();
+            audio.src = 'data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...';
+            audio.volume = 0.5;
+            audio.play().catch(e => console.log('Audio play failed:', e));
+        });
+        
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti-container');
+            confettiContainer.innerHTML = ''; // Clear previous confetti
+            
+            const colors = [
+                '#ff66a3', '#ff99cc', '#c6ff1a', '#66a3ff', '#ffcc00', 
+                '#00ffcc', '#ff9933', '#9966ff', '#33ccff', '#ff3399'
+            ];
+            
+            const shapes = ['circle', 'square', 'triangle', 'heart'];
+            
+            // Create 150 confetti pieces
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random position
+                const posX = Math.random() * window.innerWidth;
+                
+                // Random color
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Random shape
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                
+                // Random size
+                const size = Math.random() * 10 + 5;
+                
+                // Random rotation
+                const rotation = Math.random() * 360;
+                
+                // Random animation duration
+                const duration = Math.random() * 2 + 2;
+                
+                // Random animation delay
+                const delay = Math.random() * 1;
+                
+                confetti.style.left = `${posX}px`;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.animationDuration = `${duration}s`;
+                confetti.style.animationDelay = `${delay}s`;
+                
+                // Apply shapes
+                if (shape === 'circle') {
+                    confetti.style.borderRadius = '50%';
+                } else if (shape === 'triangle') {
+                    confetti.style.width = '0';
+                    confetti.style.height = '0';
+                    confetti.style.backgroundColor = 'transparent';
+                    confetti.style.borderLeft = `${size/2}px solid transparent`;
+                    confetti.style.borderRight = `${size/2}px solid transparent`;
+                    confetti.style.borderBottom = `${size}px solid ${color}`;
+                } else if (shape === 'heart') {
+                    confetti.style.backgroundColor = 'transparent';
+                    confetti.style.boxShadow = 'none';
+                    confetti.style.width = `${size}px`;
+                    confetti.style.height = `${size}px`;
+                    confetti.style.background = `radial-gradient(circle at 60% 65%, ${color} 64%, transparent 65%) top left, 
+                                                radial-gradient(circle at 40% 65%, ${color} 64%, transparent 65%) top right`;
+                    confetti.style.backgroundSize = '50% 50%';
+                    confetti.style.backgroundRepeat = 'no-repeat';
+                    confetti.style.transform = `rotate(${rotation}deg)`;
+                }
+                
+                confettiContainer.appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, (duration + delay) * 1000);
+            }
+            
+            // Add some Hello Kitty silhouettes
+            for (let i = 0; i < 15; i++) {
+                const kitty = document.createElement('div');
+                kitty.className = 'confetti';
+                
+                // Random position
+                const posX = Math.random() * window.innerWidth;
+                
+                // Random color
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Random size
+                const size = Math.random() * 15 + 10;
+                
+                // Random animation duration
+                const duration = Math.random() * 2 + 3;
+                
+                // Random animation delay
+                const delay = Math.random() * 1;
+                
+                kitty.style.left = `${posX}px`;
+                kitty.style.width = `${size}px`;
+                kitty.style.height = `${size}px`;
+                kitty.style.backgroundColor = 'transparent';
+                kitty.style.borderRadius = '50%';
+                kitty.style.boxShadow = `
+                    ${size/4}px ${-size/10}px 0 ${color},
+                    ${-size/4}px ${-size/10}px 0 ${color}`;
+                kitty.style.animationDuration = `${duration}s`;
+                kitty.style.animationDelay = `${delay}s`;
+                
+                confettiContainer.appendChild(kitty);
+                
+                // Remove kitty after animation
+                setTimeout(() => {
+                    kitty.remove();
+                }, (duration + delay) * 1000);
+            }
+            
+            // Add special 'Surprise!' text falling from top
+            const surprise = document.createElement('div');
+            surprise.className = 'confetti';
+            surprise.style.color = '#ff0066';
+            surprise.style.fontSize = '30px';
+            surprise.style.fontWeight = 'bold';
+            surprise.style.textShadow = '2px 2px 4px rgba(0,0,0,0.3)';
+            surprise.style.background = 'none';
+            surprise.style.width = 'auto';
+            surprise.style.height = 'auto';
+            surprise.style.left = '50%';
+            surprise.style.transform = 'translateX(-50%)';
+            surprise.style.animationDuration = '3s';
+            surprise.textContent = '❤️ Surprise, Adrieli! ❤️';
+            
+            confettiContainer.appendChild(surprise);
+            
+            // Remove surprise after animation
+            setTimeout(() => {
+                surprise.remove();
+            }, 3000);
+        }
     </script>
 </body>
 </html>
